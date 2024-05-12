@@ -44,8 +44,10 @@ securityContext:
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 5000
+  type: LoadBalancer
+  port: 80
+  targetport: 5000
+  loadbalancerip: 192.168.66.129
 
 ingress:
   enabled: true

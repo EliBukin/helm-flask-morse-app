@@ -1,15 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "flask-morse-app.fullname" . }}
   labels:
     {{- include "flask-morse-app.labels" . | nindent 4 }}
+  name: {{ include "flask-morse-app.fullname" . }}
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  - name: http
+    port: {{ .Values.service.port }}
+    protocol: TCP
+    targetPort: {{ .Values.service.targetport }}
   selector:
     {{- include "flask-morse-app.selectorLabels" . | nindent 4 }}
+  externalTrafficPolicy: Local
+  loadBalancerIP: {{ .Values.service.loadbalancerip }}
+  type: {{ .Values.service.type }}
